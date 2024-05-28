@@ -34,10 +34,10 @@
                 </section>
             </aside>
             <main>
-                
-                              
-
                 <?php
+                include "include/connect.php";
+                // connect();
+                // info();
                 /*
                   // C'est ici que le travail PHP commence
                   // Votre mission si vous l'acceptez est de chercher dans la base
@@ -48,7 +48,6 @@
                  */
 
                 // Etape 1: Ouvrir une connexion avec la base de donnée.
-                include "connect.php";                //verification
                 if ($mysqli->connect_errno)
                 {
                     echo "<article>";
@@ -57,7 +56,6 @@
                     echo "</article>";
                     exit();
                 }
-                
 
                 // Etape 2: Poser une question à la base de donnée et récupérer ses informations
                 // cette requete vous est donnée, elle est complexe mais correcte, 
@@ -86,7 +84,6 @@
                     echo("<p>Indice: Vérifiez la requete  SQL suivante dans phpmyadmin<code>$laQuestionEnSql</code></p>");
                     exit();
                 }
-
                 // Etape 3: Parcourir ces données et les ranger bien comme il faut dans du html
                 // NB: à chaque tour du while, la variable post ci dessous reçois les informations du post suivant.
                 while ($post = $lesInformations->fetch_assoc())

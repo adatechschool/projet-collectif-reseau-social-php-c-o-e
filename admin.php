@@ -31,7 +31,7 @@
          * Etape 1: Ouvrir une connexion avec la base de donnée.
          */
         // on va en avoir besoin pour la suite
-        include "connect.php";
+        include "include/connect.php";
         //verification
         if ($mysqli->connect_errno)
         {
@@ -61,11 +61,11 @@
                  */
                 while ($tag = $lesInformations->fetch_assoc())
                 {
-                    //echo "<pre>" . print_r($tag, 1) . "</pre>";
-                    ?>
+                    echo "<pre>" . print_r($tag, 1) . "</pre>";
+                ?>
                     <article>
-                        <h3>#chaussette</h3>
-                        <p>id:321</p>
+                        <h3><?php echo $tag['label'] ?></h3>
+                        <p><?php echo $tag['id'] ?></p>
                         <nav>
                             <a href="tags.php?tag_id=321">Messages</a>
                         </nav>

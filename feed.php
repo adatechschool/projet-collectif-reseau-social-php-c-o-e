@@ -27,6 +27,9 @@
         </header>
         <div id="wrapper">
             <?php
+            include "include/connect.php";
+            // connect();
+            // info();
             /**
              * Cette page est TRES similaire à wall.php. 
              * Vous avez sensiblement à y faire la meme chose.
@@ -41,7 +44,7 @@
             /**
              * Etape 2: se connecter à la base de donnée
              */
-            include "connect.php";              ?>
+            ?>
 
             <aside>
                 <?php

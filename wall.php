@@ -40,7 +40,8 @@
             /**
              * Etape 2: se connecter à la base de donnée
              */
-            include "connect.php";            ?>
+          include "include/connect.php";
+            ?>
 
             <aside>
                 <?php
