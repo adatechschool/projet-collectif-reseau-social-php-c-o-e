@@ -85,15 +85,15 @@
                     <h3>Mes paramètres</h3>
                     <dl>
                         <dt>pseudo</dt>
-                        <dd><?php echo $user['id'] ?></dd>
+                        <dd><?php echo"🆔". $user['id'] ?></dd>
                         <dt>Email</dt>
-                        <dd><?php echo $user['email'] ?></dd>
+                        <dd><?php echo "✉️". $user['email'] ?></dd>
                         <dt>Nombre de message</dt>
                         <dd><?php echo $user['totalpost'] ?></dd>
                         <dt>Nombre de "J'aime" donnés </dt>
-                        <dd><?php echo $user['totalgiven'] ?></dd>
+                        <dd><?php echo "❤️". $user['totalgiven'] ?></dd>
                         <dt>Nombre de "J'aime" reçus</dt>
-                        <dd><?php echo $user['totalrecieved'] ?></dd>
+                        <dd><?php echo "❤️". $user['totalrecieved'] ?></dd>
                     </dl>
 
                 </article>

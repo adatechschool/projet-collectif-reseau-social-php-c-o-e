@@ -52,7 +52,7 @@
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 $tag = $lesInformations->fetch_assoc();
                 //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par le label et effacer la ligne ci-dessous
-                echo "<pre>" . print_r($tag, 1) . "</pre>";
+                // echo "<pre>" . print_r($tag, 1) . "</pre>";
                 ?>
                 <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
                 <section>
@@ -110,7 +110,7 @@
                             <p><?php echo $post['content'] ?></p>
                         </div>                                            
                         <footer>
-                            <small>♥ <?php echo $post['like_number'] ?></small>
+                            <small>❤️ <?php echo $post['like_number'] ?></small>
                             <a href="">#<?php echo $post['taglist'] ?></a>,
                             <!-- <a href="">#piscitur</a>, -->
                         </footer>

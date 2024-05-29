@@ -55,7 +55,7 @@
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 $user = $lesInformations->fetch_assoc();
                 //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
-                echo "<pre>" . print_r($user, 1) . "</pre>";
+                // echo "<pre>" . print_r($user, 1) . "</pre>";
                 ?>
                 <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
                 <section>
@@ -108,13 +108,13 @@
                     </h3>
                     <address><?php echo $post['author_name'] ?></address>
                     <div>
-                        <p>Ceci est un paragraphe</p>
-                        <p>Ceci est un autre paragraphe</p>
+                        <!-- <p>Ceci est un paragraphe</p>
+                        <p>Ceci est un autre paragraphe</p> -->
                         <p><?php echo $post['content'] ?></p>
                     </div>                                            
                     <footer>
-                        <small>♥ <?php echo $post['like_number'] ?></small>
-                        <a href="">#<?php echo $post['taglist'] ?></a>,
+                        <small>❤️ <?php echo $post['like_number'] ?></small>
+                        <a href="">#<?php echo $post['taglist'] ?></a>
                         <!-- <a href="">#piscitur</a>, -->
                     </footer>
                 </article>

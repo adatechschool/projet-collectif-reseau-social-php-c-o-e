@@ -65,7 +65,7 @@
                 ?>
                     <article>
                         <h3><?php echo "#". $tag['label'] ?></h3>
-                        <p><?php echo $tag['id'] ?></p>
+                        <p>🆔<?php echo $tag['id'] ?></p>
                         <nav>
                             <a href="tags.php?tag_id=321">Messages</a>
                         </nav>
@@ -98,7 +98,7 @@
                     ?>
                     <article>
                         <h3><?php echo $tag['label'] ?></h3>
-                        <p><?php echo $tag['id'] ?></p>
+                        <p>🆔<?php echo $tag['id'] ?></p>
                         <nav>
                             <a href="wall.php?user_id=123">Mur</a>
                             | <a href="feed.php?user_id=123">Flux</a>

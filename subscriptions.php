@@ -62,7 +62,7 @@
                 <article>
                     <img src="user.jpg" alt="blason"/>
                     <h3><?php echo $user['alias'] ?></h3>
-                    <p><?php echo $user['id'] ?></p>                    
+                    <p>🆔<?php echo $user['id'] ?></p>                    
                 </article>
                 <?php } ?>
 
