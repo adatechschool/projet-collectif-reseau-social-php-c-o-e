@@ -54,7 +54,6 @@
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 // Etape 4: à vous de jouer
                 //@todo: faire la boucle while de parcours des abonnés et mettre les bonnes valeurs ci dessous 
-                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 while ($user = $lesInformations->fetch_assoc())
                 {
                   ?>  
@@ -67,6 +66,9 @@
                 }
                 ?>
             </main>
+            <?php
+                }
+                ?>
         </div>
     </body>
 </html>

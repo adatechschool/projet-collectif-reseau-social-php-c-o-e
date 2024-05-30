@@ -64,8 +64,13 @@
                     // echo "<pre>" . print_r($tag, 1) . "</pre>";
                 ?>
                     <article>
+<<<<<<< HEAD
                         <h3><?php echo "#". $tag['label'] ?></h3>
                         <p>🆔<?php echo $tag['id'] ?></p>
+=======
+                        <h3><?php echo $tag['label'] ?></h3>
+                        <p><?php echo $tag['id'] ?></p>
+>>>>>>> 0939d22 (tout depuis debut)
                         <nav>
                             <a href="tags.php?tag_id=321">Messages</a>
                         </nav>
