@@ -66,9 +66,7 @@
                 }
                 ?>
             </main>
-            <?php
-                }
-                ?>
+            
         </div>
     </body>
 </html>

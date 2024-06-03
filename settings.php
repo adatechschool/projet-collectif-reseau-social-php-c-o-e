@@ -78,14 +78,14 @@
                 /**
                  * Etape 4: à vous de jouer
                  */
-                //@todo: afficher le résultat de la ligne ci dessous, remplacer les valeurs ci-après puiseffacer la ligne ci-dessous
+                //@todo: afficher le résultat de la ligne ci dessous, remplacer les valeurs ci-après puis effacer la ligne ci-dessous
                 // echo "<pre>" . print_r($user, 1) . "</pre>";
                 ?>                
                 <article class='parameters'>
                     <h3>Mes paramètres</h3>
                     <dl>
                         <dt>pseudo</dt>
-                        <dd><?php echo"🆔". $user['id'] ?></dd>
+                        <dd><?php echo"🆔". $user['alias'] ?></dd>
                         <dt>Email</dt>
                         <dd><?php echo "✉️". $user['email'] ?></dd>
                         <dt>Nombre de message</dt>

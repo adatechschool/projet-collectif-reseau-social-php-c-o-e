@@ -63,6 +63,7 @@
                 $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    posts.user_id,
                     users.alias as author_name,  
                     count(likes.id) as like_number,  
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
@@ -74,6 +75,7 @@
                     GROUP BY posts.id
                     ORDER BY posts.created DESC  
                     LIMIT 5
+                    
                     ";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 // Vérification: test s'il n'y a pas des lignes dans la base de données qui repondent aux critères de la requête sql 
@@ -86,6 +88,14 @@
                 }
                 // Etape 3: Parcourir ces données et les ranger bien comme il faut dans du html
                 // NB: à chaque tour du while, la variable post ci dessous reçois les informations du post suivant.
+
+                 
+                    // $laQuestionEnSql2 = "SELECT * FROM `users` ";
+                    // $lesInformations2 = $mysqli->query($laQuestionEnSql2);
+                    // $post2 = $lesInformations2->fetch_assoc();
+                   
+                
+                
                 while ($post = $lesInformations->fetch_assoc())
                 {
                     //la ligne ci-dessous doit etre supprimée mais regardez ce 
@@ -98,13 +108,15 @@
                     // 
                     // avec le ? > ci-dessous on sort du mode php et on écrit du html comme on veut... mais en restant dans la boucle
                     ?>
+                   
+
                     <article>
                         <h3>
                             <time><?php echo $post['created'] ?></time>
                         </h3>
-                        <address><a href="wall.php?user_id=5"><?php echo $post['author_name'] ?></a></address>
+                        <address><a href="wall.php?user_id=<?php echo $post['user_id']?>"><?php echo $post['author_name'] ?></a></address>
                         <div>
-                            <p><?php echo $post['content'] ?></p>
+                            <p><?php echo $post['content'] ?></p>:
                         </div>
                         <footer>
                             <small><?php echo "❤️". $post['like_number'] ?></small>
