@@ -125,7 +125,6 @@
                 // et de pas oublier de fermer ici vote while
                 ?>
 
-
             </main>
         </div>
     </body>
