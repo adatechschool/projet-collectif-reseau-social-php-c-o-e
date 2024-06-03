@@ -27,6 +27,9 @@
         </header>
         <div id="wrapper">
             <?php
+            include "include/connect.php";
+            // connect();
+            // info();
             /**
              * Cette page est TRES similaire à wall.php. 
              * Vous avez sensiblement à y faire la meme chose.
@@ -41,7 +44,7 @@
             /**
              * Etape 2: se connecter à la base de donnée
              */
-            include "connect.php";              ?>
+            ?>
 
             <aside>
                 <?php
@@ -52,13 +55,13 @@
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 $user = $lesInformations->fetch_assoc();
                 //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
-                echo "<pre>" . print_r($user, 1) . "</pre>";
+                // echo "<pre>" . print_r($user, 1) . "</pre>";
                 ?>
                 <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
                 <section>
                     <h3>Présentation</h3>
                     <p>Sur cette page vous trouverez tous les message des utilisatrices
-                        auxquel est abonnée l'utilisatrice XXX
+                        auxquel est abonnée l'utilisatrice <?php echo $user['alias'] ?>
                         (n° <?php echo $userId ?>)
                     </p>
 
@@ -95,25 +98,29 @@
                  * Etape 4: @todo Parcourir les messsages et remplir correctement le HTML avec les bonnes valeurs php
                  * A vous de retrouver comment faire la boucle while de parcours...
                  */
-                ?>                
+                 
+                while ($post = $lesInformations ->fetch_assoc())  
+                { 
+                    ?>            
                 <article>
                     <h3>
                         <time datetime='2020-02-01 11:12:13' >31 février 2010 à 11h12</time>
                     </h3>
-                    <address>par AreTirer</address>
+                    <address><?php echo $post['author_name'] ?></address>
                     <div>
-                        <p>Ceci est un paragraphe</p>
-                        <p>Ceci est un autre paragraphe</p>
-                        <p>... de toutes manières il faut supprimer cet 
-                            article et le remplacer par des informations en 
-                            provenance de la base de donnée</p>
+                        <!-- <p>Ceci est un paragraphe</p>
+                        <p>Ceci est un autre paragraphe</p> -->
+                        <p><?php echo $post['content'] ?></p>
                     </div>                                            
                     <footer>
-                        <small>♥ 132</small>
-                        <a href="">#lorem</a>,
-                        <a href="">#piscitur</a>,
+                        <small>❤️ <?php echo $post['like_number'] ?></small>
+                        <a href="">#<?php echo $post['taglist'] ?></a>
+                        <!-- <a href="">#piscitur</a>, -->
                     </footer>
                 </article>
+                <?php
+                }
+                ?>
                 <?php
                 // et de pas oublier de fermer ici vote while
                 ?>
