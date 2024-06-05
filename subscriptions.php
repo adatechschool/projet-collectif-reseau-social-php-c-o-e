@@ -1,9 +1,13 @@
 <?php
 session_start();
+<<<<<<< HEAD
 if (!isset($_SESSION['connected_id'])) {
     header('Location: login.php'); // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
     exit();
 }?>
+=======
+?>
+>>>>>>> 021d76576b65aee8e8eb09a0f6394830ffd91759
 <!doctype html>
 <html lang="fr">
     <head>

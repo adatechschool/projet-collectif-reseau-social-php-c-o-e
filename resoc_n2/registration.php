@@ -1,33 +1,26 @@
-<?php
-session_start();
-?>
 <!doctype html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>ReSoC - Connexion</title> 
+        <title>ReSoC - Inscription</title> 
         <meta name="author" content="Julien Falconnet">
         <link rel="stylesheet" href="style.css"/>
     </head>
     <body>
         <header>
-<<<<<<< HEAD
-            <img src="https://th.bing.com/th/id/R.c6c91eb3ba2b3fecbd487427622873da?rik=Jc8tyCSgFd27Fg&riu=http%3a%2f%2fwww.clipartbest.com%2fcliparts%2f4cb%2foza%2f4cbozaLMi.png&ehk=wM9fAOz4Vv9pjFCSDUEe3qOfn9fml5%2ftrK1Z%2fU2OJh4%3d&risl=&pid=ImgRaw&r=0" alt="Logo de notre réseau social"/>
-=======
             <img src="resoc.jpg" alt="Logo de notre réseau social"/>
->>>>>>> 021d76576b65aee8e8eb09a0f6394830ffd91759
             <nav id="menu">
                 <a href="news.php">Actualités</a>
-                <a href="wall.php?user_id=<?php echo $_SESSION['connected_id']?>">Mur</a>
-                <a href="feed.php?user_id=<?php echo $_SESSION['connected_id']?>">Flux</a>
+                <a href="wall.php?user_id=5">Mur</a>
+                <a href="feed.php?user_id=5">Flux</a>
                 <a href="tags.php?tag_id=1">Mots-clés</a>
             </nav>
             <nav id="user">
                 <a href="#">Profil</a>
                 <ul>
-                    <li><a href="settings.php?user_id=<?php echo $_SESSION['connected_id']?>">Paramètres</a></li>
-                    <li><a href="followers.php?user_id=<?php echo $_SESSION['connected_id']?>">Mes suiveurs</a></li>
-                    <li><a href="subscriptions.php?user_id=<?php echo $_SESSION['connected_id']?>">Mes abonnements</a></li>
+                    <li><a href="settings.php?user_id=5">Paramètres</a></li>
+                    <li><a href="followers.php?user_id=5">Mes suiveurs</a></li>
+                    <li><a href="subscriptions.php?user_id=5">Mes abonnements</a></li>
                 </ul>
 
             </nav>
@@ -41,7 +34,7 @@ session_start();
             </aside>
             <main>
                 <article>
-                    <h2>Connexion</h2>
+                    <h2>Inscription</h2>
                     <?php
                     /**
                      * TRAITEMENT DU FORMULAIRE
@@ -56,44 +49,45 @@ session_start();
                         // observez le résultat de cette ligne de débug (vous l'effacerez ensuite)
                         echo "<pre>" . print_r($_POST, 1) . "</pre>";
                         // et complétez le code ci dessous en remplaçant les ???
-                        $emailAVerifier = $_POST['email'];
-                        $passwdAVerifier = $_POST['motpasse'];
+                        $new_email = $_POST['???'];
+                        $new_alias = $_POST['???'];
+                        $new_passwd = $_POST['???'];
 
 
                         //Etape 3 : Ouvrir une connexion avec la base de donnée.
-                       include "include/connect.php";
+                        $mysqli = new mysqli("localhost", "root", "root", "socialnetwork_tests");
                         //Etape 4 : Petite sécurité
                         // pour éviter les injection sql : https://www.w3schools.com/sql/sql_injection.asp
-                        $emailAVerifier = $mysqli->real_escape_string($emailAVerifier);
-                        $passwdAVerifier = $mysqli->real_escape_string($passwdAVerifier);
+                        $new_email = $mysqli->real_escape_string($new_email);
+                        $new_alias = $mysqli->real_escape_string($new_alias);
+                        $new_passwd = $mysqli->real_escape_string($new_passwd);
                         // on crypte le mot de passe pour éviter d'exposer notre utilisatrice en cas d'intrusion dans nos systèmes
-                        $passwdAVerifier = md5($passwdAVerifier);
+                        $new_passwd = md5($new_passwd);
                         // NB: md5 est pédagogique mais n'est pas recommandée pour une vraies sécurité
                         //Etape 5 : construction de la requete
-                        $lInstructionSql = "SELECT * "
-                                . "FROM users "
-                                . "WHERE "
-                                . "email LIKE '" . $emailAVerifier . "'"
-                                ;
-                        // Etape 6: Vérification de l'utilisateur
-                        $res = $mysqli->query($lInstructionSql);
-                        $user = $res->fetch_assoc();
-                        if ( ! $user OR $user["password"] != $passwdAVerifier)
+                        $lInstructionSql = "INSERT INTO users (id, email, password, alias) "
+                                . "VALUES (NULL, "
+                                . "'" . $new_email . "', "
+                                . "'" . $new_passwd . "', "
+                                . "'" . $new_alias . "'"
+                                . ");";
+                        // Etape 6: exécution de la requete
+                        $ok = $mysqli->query($lInstructionSql);
+                        if ( ! $ok)
                         {
-                            echo "La connexion a échouée. ";
-                            
+                            echo "L'inscription a échouée : " . $mysqli->error;
                         } else
                         {
-                            echo "Votre connexion est un succès : " . $user['alias'] . ".";
-                            // Etape 7 : Se souvenir que l'utilisateur s'est connecté pour la suite
-                            // documentation: https://www.php.net/manual/fr/session.examples.basic.php
-                            $_SESSION['connected_id']=$user['id'];
+                            echo "Votre inscription est un succès : " . $new_alias;
+                            echo " <a href='login.php'>Connectez-vous.</a>";
                         }
                     }
                     ?>                     
-                    <form action="login.php" method="post">
+                    <form action="registration.php" method="post">
                         <input type='hidden'name='???' value='achanger'>
                         <dl>
+                            <dt><label for='pseudo'>Pseudo</label></dt>
+                            <dd><input type='text'name='pseudo'></dd>
                             <dt><label for='email'>E-Mail</label></dt>
                             <dd><input type='email'name='email'></dd>
                             <dt><label for='motpasse'>Mot de passe</label></dt>
@@ -101,11 +95,6 @@ session_start();
                         </dl>
                         <input type='submit'>
                     </form>
-                    <p>
-                        Pas de compte?
-                        <a href='registration.php'>Inscrivez-vous.</a>
-                    </p>
-
                 </article>
             </main>
         </div>

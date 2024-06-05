@@ -11,7 +11,11 @@ session_start();
     </head>
     <body>
         <header>
+<<<<<<< HEAD
             <img src="https://th.bing.com/th/id/R.c6c91eb3ba2b3fecbd487427622873da?rik=Jc8tyCSgFd27Fg&riu=http%3a%2f%2fwww.clipartbest.com%2fcliparts%2f4cb%2foza%2f4cbozaLMi.png&ehk=wM9fAOz4Vv9pjFCSDUEe3qOfn9fml5%2ftrK1Z%2fU2OJh4%3d&risl=&pid=ImgRaw&r=0" alt="Logo de notre réseau social"/>
+=======
+            <img src="resoc.jpg" alt="Logo de notre réseau social"/>
+>>>>>>> 021d76576b65aee8e8eb09a0f6394830ffd91759
             <nav id="menu">
                 <a href="news.php">Actualités</a>
                 <a href="wall.php?user_id=<?php echo $_SESSION['connected_id']?>">Mur</a>
