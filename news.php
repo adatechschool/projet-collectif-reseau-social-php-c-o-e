@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="fr">
     <head>
@@ -8,19 +11,19 @@
     </head>
     <body>
         <header>
-            <a href='admin.php'><img src="resoc.jpg" alt="Logo de notre réseau social"/></a>
+            <a href='admin.php'><img src="https://th.bing.com/th/id/R.c6c91eb3ba2b3fecbd487427622873da?rik=Jc8tyCSgFd27Fg&riu=http%3a%2f%2fwww.clipartbest.com%2fcliparts%2f4cb%2foza%2f4cbozaLMi.png&ehk=wM9fAOz4Vv9pjFCSDUEe3qOfn9fml5%2ftrK1Z%2fU2OJh4%3d&risl=&pid=ImgRaw&r=0" alt="Logo de notre réseau social"/></a>
             <nav id="menu">
                 <a href="news.php">Actualités</a>
-                <a href="wall.php?user_id=5">Mur</a>
-                <a href="feed.php?user_id=5">Flux</a>
+                <a href="wall.php?user_id=<?php echo $_SESSION['connected_id']?>">Mur</a>
+                <a href="feed.php?user_id=<?php echo $_SESSION['connected_id']?>">Flux</a>
                 <a href="tags.php?tag_id=1">Mots-clés</a>
             </nav>
             <nav id="user">
                 <a href="#">▾ Profil</a>
                 <ul>
-                    <li><a href="settings.php?user_id=5">Paramètres</a></li>
-                    <li><a href="followers.php?user_id=5">Mes suiveurs</a></li>
-                    <li><a href="subscriptions.php?user_id=5">Mes abonnements</a></li>
+                    <li><a href="settings.php?user_id=<?php echo $_SESSION['connected_id']?>">Paramètres</a></li>
+                    <li><a href="followers.php?user_id=<?php echo $_SESSION['connected_id']?>">Mes suiveurs</a></li>
+                    <li><a href="subscriptions.php?user_id=<?php echo $_SESSION['connected_id']?>">Mes abonnements</a></li>
                 </ul>
             </nav>
         </header>
@@ -34,28 +37,10 @@
                 </section>
             </aside>
             <main>
-                <!-- L'article qui suit est un exemple pour la présentation et 
-                  @todo: doit etre retiré -->
-                <article>
-                    <h3>
-                        <time datetime='2020-02-01 11:12:13' >31 février 2010 à 11h12</time>
-                    </h3>
-                    <address>par AreTirer</address>
-                    <div>
-                        <p>Ceci est un paragraphe</p>
-                        <p>Ceci est un autre paragraphe</p>
-                        <p>... de toutes manières il faut supprimer cet 
-                            article et le remplacer par des informations en 
-                            provenance de la base de donnée (voir ci-dessous)</p>
-                    </div>                                            
-                    <footer>
-                        <small>♥1012 </small>
-                        <a href="">#lorem</a>,
-                        <a href="">#piscitur</a>,
-                    </footer>
-                </article>               
-
                 <?php
+                include "include/connect.php";
+                // connect();
+                // info();
                 /*
                   // C'est ici que le travail PHP commence
                   // Votre mission si vous l'acceptez est de chercher dans la base
@@ -66,8 +51,6 @@
                  */
 
                 // Etape 1: Ouvrir une connexion avec la base de donnée.
-                $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
-                //verification
                 if ($mysqli->connect_errno)
                 {
                     echo "<article>";
@@ -83,6 +66,7 @@
                 $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    posts.user_id,
                     users.alias as author_name,  
                     count(likes.id) as like_number,  
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
@@ -94,9 +78,10 @@
                     GROUP BY posts.id
                     ORDER BY posts.created DESC  
                     LIMIT 5
+                    
                     ";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
-                // Vérification
+                // Vérification: test s'il n'y a pas des lignes dans la base de données qui repondent aux critères de la requête sql 
                 if ( ! $lesInformations)
                 {
                     echo "<article>";
@@ -104,14 +89,21 @@
                     echo("<p>Indice: Vérifiez la requete  SQL suivante dans phpmyadmin<code>$laQuestionEnSql</code></p>");
                     exit();
                 }
-
                 // Etape 3: Parcourir ces données et les ranger bien comme il faut dans du html
                 // NB: à chaque tour du while, la variable post ci dessous reçois les informations du post suivant.
+
+                 
+                    // $laQuestionEnSql2 = "SELECT * FROM `users` ";
+                    // $lesInformations2 = $mysqli->query($laQuestionEnSql2);
+                    // $post2 = $lesInformations2->fetch_assoc();
+                   
+                
+                
                 while ($post = $lesInformations->fetch_assoc())
                 {
                     //la ligne ci-dessous doit etre supprimée mais regardez ce 
                     //qu'elle affiche avant pour comprendre comment sont organisées les information dans votre 
-                    echo "<pre>" . print_r($post, 1) . "</pre>";
+                    // echo "<pre>" . print_r($post, 1) . "</pre>";
 
                     // @todo : Votre mission c'est de remplacer les AREMPLACER par les bonnes valeurs
                     // ci-dessous par les bonnes valeurs cachées dans la variable $post 
@@ -119,23 +111,42 @@
                     // 
                     // avec le ? > ci-dessous on sort du mode php et on écrit du html comme on veut... mais en restant dans la boucle
                     ?>
+                   
+
                     <article>
                         <h3>
                             <time><?php echo $post['created'] ?></time>
                         </h3>
-                        <address>AREMPLACER</address>
+                        <address><a href="wall.php?user_id=<?php echo $post['user_id']?>"><?php echo $post['author_name'] ?></a></address>
                         <div>
-                            <p>AREMPLACER</p>
+                            <p><?php echo $post['content'] ?></p>:
                         </div>
                         <footer>
-                            <small>♥ AREMPLACER </small>
-                            <a href="">AREMPLACER</a>,
+                            <small><?php echo "❤️". $post['like_number'] ?></small>
+                            <a href=""><?php echo "#". $post['taglist'] ?></a>
                         </footer>
                     </article>
                     <?php
                     // avec le <?php ci-dessus on retourne en mode php 
                 }// cette accolade ferme et termine la boucle while ouverte avant.
-                ?>
+                
+                  // Initialiser la variable de session si elle n'existe pas
+            if (!isset($_SESSION['incremented'])) {
+            $_SESSION['incremented'] = false;
+        }
+
+    // Vérifier si le formulaire a été soumis et si la variable de session permet l'incrémentation
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && !$_SESSION['incremented']) {
+            $_SESSION['incremented'] = true;
+            echo "<p>Le bouton a été cliqué et la variable a été incrémentée.</p>";
+        }       elseif ($_SESSION['incremented']) {
+            echo "<p>Le bouton a déjà été cliqué une fois.</p>";
+        }
+    ?>
+                            
+        <form method="post" id="incrementForm">
+                <button type="submit" id="incrementButton">like</button>
+        </form> 
 
             </main>
         </div>

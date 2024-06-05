@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['connected_id'])) {
+    header('Location: login.php'); // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
+    exit();
+}?>
 <!doctype html>
 <html lang="fr">
     <head>
@@ -7,20 +13,21 @@
         <link rel="stylesheet" href="style.css"/>
     </head>
     <body>
+        
         <header>
-            <img src="resoc.jpg" alt="Logo de notre réseau social"/>
+            <img src="https://th.bing.com/th/id/R.c6c91eb3ba2b3fecbd487427622873da?rik=Jc8tyCSgFd27Fg&riu=http%3a%2f%2fwww.clipartbest.com%2fcliparts%2f4cb%2foza%2f4cbozaLMi.png&ehk=wM9fAOz4Vv9pjFCSDUEe3qOfn9fml5%2ftrK1Z%2fU2OJh4%3d&risl=&pid=ImgRaw&r=0" alt="Logo de notre réseau social"/>
             <nav id="menu">
                 <a href="news.php">Actualités</a>
-                <a href="wall.php?user_id=5">Mur</a>
-                <a href="feed.php?user_id=5">Flux</a>
+                <a href="wall.php?user_id=<?php echo $_SESSION['connected_id']?>">Mur</a>
+                <a href="feed.php?user_id=<?php echo $_SESSION['connected_id']?>">Flux</a>
                 <a href="tags.php?tag_id=1">Mots-clés</a>
             </nav>
             <nav id="user">
                 <a href="#">Profil</a>
                 <ul>
-                    <li><a href="settings.php?user_id=5">Paramètres</a></li>
-                    <li><a href="followers.php?user_id=5">Mes suiveurs</a></li>
-                    <li><a href="subscriptions.php?user_id=5">Mes abonnements</a></li>
+                    <li><a href="settings.php?<?php echo $_SESSION['connected_id']?>">Paramètres</a></li>
+                    <li><a href="followers.php?user_id=<?php echo $_SESSION['connected_id']?>">Mes suiveurs</a></li>
+                    <li><a href="subscriptions.php?user_id=<?php echo $_SESSION['connected_id']?>">Mes abonnements</a></li>
                 </ul>
 
             </nav>
@@ -51,7 +58,7 @@
                 /**
                  * Etape 2: se connecter à la base de donnée
                  */
-                $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
+               include "include/connect.php";
 
                 /**
                  * Etape 3: récupérer le nom de l'utilisateur
@@ -78,22 +85,22 @@
                 /**
                  * Etape 4: à vous de jouer
                  */
-                //@todo: afficher le résultat de la ligne ci dessous, remplacer les valeurs ci-après puiseffacer la ligne ci-dessous
-                echo "<pre>" . print_r($user, 1) . "</pre>";
+                //@todo: afficher le résultat de la ligne ci dessous, remplacer les valeurs ci-après puis effacer la ligne ci-dessous
+                // echo "<pre>" . print_r($user, 1) . "</pre>";
                 ?>                
                 <article class='parameters'>
                     <h3>Mes paramètres</h3>
                     <dl>
-                        <dt>Pseudo</dt>
-                        <dd>Félicie</dd>
+                        <dt>pseudo</dt>
+                        <dd><?php echo"🆔". $user['alias'] ?></dd>
                         <dt>Email</dt>
-                        <dd>felicie@test.org</dd>
+                        <dd><?php echo "✉️". $user['email'] ?></dd>
                         <dt>Nombre de message</dt>
-                        <dd>42</dd>
+                        <dd><?php echo $user['totalpost'] ?></dd>
                         <dt>Nombre de "J'aime" donnés </dt>
-                        <dd>12</dd>
+                        <dd><?php echo "❤️". $user['totalgiven'] ?></dd>
                         <dt>Nombre de "J'aime" reçus</dt>
-                        <dd>53</dd>
+                        <dd><?php echo "❤️". $user['totalrecieved'] ?></dd>
                     </dl>
 
                 </article>
