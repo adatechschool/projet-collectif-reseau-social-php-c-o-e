@@ -1,9 +1,9 @@
 <?php
-<<<<<<< HEAD
 session_start();
-=======
->>>>>>> 021d76576b65aee8e8eb09a0f6394830ffd91759
-?>
+if (!isset($_SESSION['connected_id'])) {
+    header('Location: login.php'); // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
+    exit();
+}?>
 <!doctype html>
 <html lang="fr">
     <head>
@@ -33,28 +33,58 @@ session_start();
         </header>
         <div id="wrapper">
             <?php
+            /**
+             * Etape 1: Le mur concerne un utilisateur en particulier
+             * La première étape est donc de trouver quel est l'id de l'utilisateur
+             * Celui ci est indiqué en parametre GET de la page sous la forme user_id=...
+             * Documentation : https://www.php.net/manual/fr/reserved.variables.get.php
+             * ... mais en résumé c'est une manière de passer des informations à la page en ajoutant des choses dans l'url
+             */
             $userId =intval($_GET['user_id']);
             ?>
             <?php
-<<<<<<< HEAD
             /**
              * Etape 2: se connecter à la base de donnée
              */
-=======
->>>>>>> 021d76576b65aee8e8eb09a0f6394830ffd91759
           include "include/connect.php";
             ?>
 
             <aside>
                 <?php
+                
+            // Incrémentation du nombre de likes si le bouton est cliqué
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post_id'])) {
+                $postId = $_POST['post_id'];
+                $userId = $_SESSION['connected_id'];
+
+                // Vérifier si l'utilisateur a déjà liké ce post
+                $checkLikeQuery = "SELECT * FROM likes WHERE post_id = ? AND user_id = ?";
+                $like = $mysqli->prepare($checkLikeQuery);
+                $like->bind_param("ii", $postId, $userId);
+                $like->execute();
+                $result = $like->get_result();
+
+                if ($result->num_rows == 0) {
+                    // Ajouter un nouveau like
+                    $likeQuery = "INSERT INTO likes (post_id, user_id) VALUES (?, ?)";
+                    $like = $mysqli->prepare($likeQuery);
+                    $like->bind_param("ii", $postId, $userId);
+                    $like->execute();
+
+                    echo "<p>Le post a été liké.</p>";
+                } else {
+                    echo "<p>Vous avez déjà liké ce post.</p>";
+                }
+            }
+
+                /**
+                 * Etape 3: récupérer le nom de l'utilisateur
+                 */                
                 $laQuestionEnSql = "SELECT * FROM users WHERE id= '$userId' ";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 $user = $lesInformations->fetch_assoc();
-<<<<<<< HEAD
                 //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
                 // echo "<pre>" . print_r($user, 1) . "</pre>";
-=======
->>>>>>> 021d76576b65aee8e8eb09a0f6394830ffd91759
                 ?>
                 <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
                 <section>
@@ -66,6 +96,9 @@ session_start();
             </aside>
             <main>
                 <?php
+                /**
+                 * Etape 3: récupérer tous les messages de l'utilisatrice
+                 */
                 $laQuestionEnSql = "
                     SELECT posts.content, posts.created, users.alias as author_name, 
                     COUNT(likes.id) as like_number, GROUP_CONCAT(DISTINCT tags.label) AS taglist 
@@ -103,41 +136,14 @@ session_start();
                             <p><?php echo $post['content'] ?></p>
                         </div>                                            
                         <footer>
-<<<<<<< HEAD
-                            <?php
-                             
-
-    // Initialiser la variable de session si elle n'existe pas
-            if (!isset($_SESSION['incremented'])) {
-            $_SESSION['incremented'] = false;
-        }
-
-    // Vérifier si le formulaire a été soumis et si la variable de session permet l'incrémentation
-            if ($_SERVER['REQUEST_METHOD'] == 'POST' && !$_SESSION['incremented']) {
-            $_SESSION['incremented'] = true;
-            echo "<p>Le bouton a été cliqué et la variable a été incrémentée.</p>";
-        }       elseif ($_SESSION['incremented']) {
-            echo "<p>Le bouton a déjà été cliqué une fois.</p>";
-        }
-    ?>
-                            
-        <form method="post" id="incrementForm">
-                <button type="submit" id="incrementButton">like</button>
-        </form>                            
+                         
                             <small>❤️ <?php echo $post['like_number'] ?></small>
                             <a href="">#<?php echo $post['taglist'] ?></a>
-=======
-                            <small>❤️ <?php echo $post['like_number'] ?></small>
-                            <a href="">#<?php echo $post['taglist'] ?></a>,
->>>>>>> 021d76576b65aee8e8eb09a0f6394830ffd91759
                             <!-- <a href="">#<?php echo $post['taglist'] ?></a>, -->
                         </footer>
                     </article>
                 <?php } ?>
-                        <dl>
-                            <dt><label for='message'>Message</label></dt>
-                            <dd><textarea name='message'></textarea></dd>
-                        </dl>
+
 
             </main>
         </div>

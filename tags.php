@@ -1,6 +1,9 @@
 <?php
 session_start();
-?>
+if (!isset($_SESSION['connected_id'])) {
+    header('Location: login.php'); // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
+    exit();
+}?>
 <!doctype html>
 <html lang="fr">
     <head>

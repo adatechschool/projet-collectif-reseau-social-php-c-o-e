@@ -160,6 +160,60 @@ body>header #user:hover ul{
 pre{
     color:#aaa;
 }
+#button {
+    border-radius: 15px;
+    background: linear-gradient(45deg, rgba(131, 58, 180, 1) 10%, rgba(253, 29, 29, 1) 51%, rgba(252, 176, 69, 1) 89%);
+}
+#button:link,
+#button:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 40px;
+    display: inline-block;
+    border-radius: 100px;
+    transition: all .2s;
+    position: absolute;
+}
+
+#button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+#button:active {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+#button::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+}
+
+#button-white::after {
+    background-color: #fff;
+}
+
+#button:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+
+#button-animated {
+    animation: moveInBottom 5s ease-out;
+    animation-fill-mode: backwards;
+    width: 2%;
+    font-size: large;
+}
 /**************************** Animation CSS ********************/
 @keyframes opacity {
     from {
@@ -168,5 +222,17 @@ pre{
 
     to {
         opacity: 1;
+    }
+}
+
+@keyframes moveInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
     }
 }
